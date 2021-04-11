@@ -23,7 +23,27 @@ class AnswerFactory extends Factory
     {
         return [
 
-            'text' => $this->faker->sentence
+            'text' => $this->faker->sentence,
+
+            'approved' => false
         ];
+    }
+
+    public function approved()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'approved' => true
+            ];
+        });
+    }
+
+    public function disapproved()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'approved' => false
+            ];
+        });
     }
 }

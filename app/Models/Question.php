@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Question extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+    protected $table = 'questionables';
 
     protected $casts = [
         'approved' => 'boolean'
@@ -17,15 +19,39 @@ class Question extends Model
 
     public function answers()
     {
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class, 'questionable_id');
     }
 
     public function giveAnswer($answer)
     {
 
+        if (!$this->approved) {
+            return;
+        }
         $this->answers()->create([
             'approved' => false,
             'text' => $answer['text']
+        ]);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function ratings()
+    {
+
+        return $this->morphMany(Rate::class, 'rateable');
+    }
+
+    public function rate($star)
+    {
+
+        return $this->ratings()->create([
+            'rateable_type' => Question::class,
+            'rateable_id' => $this->id,
+            'star' => $star
         ]);
     }
 }

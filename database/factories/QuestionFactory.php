@@ -44,4 +44,22 @@ class QuestionFactory extends Factory
             ];
         });
     }
+
+    public function exam()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'questionable_type' => Exam::class,
+            ];
+        });
+    }
+
+    public function book()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'questionable_type' => Book::class,
+            ];
+        });
+    }
 }

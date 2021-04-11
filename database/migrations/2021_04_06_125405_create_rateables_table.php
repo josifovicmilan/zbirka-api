@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnswersTable extends Migration
+class CreateRateablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::create('answers', function (Blueprint $table) {
+        Schema::create('rateables', function (Blueprint $table) {
             $table->id();
-            $table->text('text');
-            $table->boolean('approved')->nullable();
+            $table->unsignedBigInteger('rateable_id');
+            $table->string('rateable_type');
+            $table->unsignedTinyInteger('star');
             $table->timestamps();
-
-            $table->foreignId('questionable_id')->constrained();
         });
     }
 
@@ -30,6 +29,6 @@ class CreateAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('answers');
+        Schema::dropIfExists('rateables');
     }
 }
