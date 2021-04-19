@@ -47,4 +47,18 @@ class Answer extends Model
 
         return $this->hasMany(Step::class);
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function giveComment($comment)
+    {
+        return $this->comments()->create([
+            'commentable_id' => $this->id,
+            'commentable_type' => static::class,
+            'body' => $comment['body']
+        ]);
+    }
 }

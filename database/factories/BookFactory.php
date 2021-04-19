@@ -22,7 +22,10 @@ class BookFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'title' => $this->faker->sentence,
+            'author' => $this->faker->name,
+            'file' => 'vene.pdf',
+            'cover' => 'vene.png'
         ];
     }
 }
